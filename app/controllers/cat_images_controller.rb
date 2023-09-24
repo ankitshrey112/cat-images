@@ -2,6 +2,8 @@ class CatImagesController < ApplicationController
   SUCCESS = 'OK'
   BAD_REQUEST = '400 Bad Request'
 
+  http_basic_authenticate_with name: "ankit", password: "12345"
+
   protect_from_forgery with: :null_session
 
   def health
