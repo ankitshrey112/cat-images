@@ -1,54 +1,45 @@
 require 'rails_helper'
 
 RSpec.describe CreateCatImage do
+
   describe '#execute' do
     context 'with valid attributes' do
-      let(:attributes) { { latitude: 1.37326, longitude: 103.899, per_page: 10 } }
+      tempfile = Tempfile.new(['hello', '.png'])
+      let(:attributes) { {
+          name: 'Fluffy',
+          age: 2,
+          breed: 'Persian',
+          image: ActionDispatch::Http::UploadedFile.new(
+              tempfile: tempfile,
+              type: 'image/png',
+              filename: 'original_file_name.png'
+            )
+        } }
 
-      it 'returns the correct number of carparks' do
-        result = described_class.run!(attributes)
-        expect(result[:list].length).to eq(10)
-      end
-      
-      it 'checks order of carparks sorted by distance' do
-        result = described_class.run!(attributes)
-        
-        result[:list].each_with_index do |carpark, ind|
-          next if ind == 0
+      it 'creates a CatImage' do
+        result = described_class.run(attributes)
 
-          expected = result[:list][ind - 1][:distance]
-          expect(carpark[:distance]).to be >= (expected)
-        end
+        expect(result).to be_valid
+        expect(result.errors).to be_empty
+        expect(result.result).to have_key(:id)
+
+        cat_image = CatImage.find(result.result[:id])
+        expect(cat_image).to be_present
+        expect(cat_image.name).to eq('Fluffy')
+        expect(cat_image.age).to eq(2)
+        expect(cat_image.breed).to eq('Persian')
+        expect(cat_image.image.attached?).to be true
       end
     end
 
     context 'with invalid attributes' do
       let(:attributes) { { } }
 
-      it 'latitude and longitude both missing' do
+      it 'returns errors' do
         result = described_class.run(attributes)
-        expect(result.errors).to be_present
-      end
-
-      let(:attributes) { { latitude: 1.37326 } }
-
-      it 'longitude missing' do
-        result = described_class.run(attributes)
-        expect(result.errors).to be_present
-      end
-
-      let(:attributes) { { longitude: 1.37326 } }
-
-      it 'latitude missing' do
-        result = described_class.run(attributes)
-        expect(result.errors).to be_present
-      end
-
-      let(:attributes) { { longitude: '1.37326', longitude: 103.899 } }
-
-      it 'incorrect input tye for longitude' do
-        result = described_class.run(attributes)
-        expect(result.errors).to be_present
+        
+        expect(result).not_to be_valid
+        expect(result.errors).not_to be_empty
       end
     end
   end
