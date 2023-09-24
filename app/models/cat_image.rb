@@ -16,21 +16,21 @@ class CatImage < ApplicationRecord
   private
 
   def validate_image
-    return if !new_record? && !avatar.attachment_changes['attachment'].present?
+    return if !new_record? && !image.attachment_changes['attachment'].present?
 
     unless self.image.attached?
       self.errors.add(:image, 'no image file found!')
-      avatar.purge and return
+      image.purge and return
     end
 
     unless self.image.blob.content_type.starts_with?('image/')
       self.errors.add(:image, 'invalid file type, please upload a valid image file')
-      avatar.purge and return
+      image.purge and return
     end
 
     if self.image.blob.byte_size > 10.megabytes
       self.errors.add(:image, 'image size cannot be greater than 10 megabytes')
-      avatar.purge and return
+      image.purge and return
     end
   end
 
