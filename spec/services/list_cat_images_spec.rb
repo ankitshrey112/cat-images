@@ -118,7 +118,7 @@ RSpec.describe ListCatImages do
       end
 
       it 'returns a list of cat images with custom pagination data' do
-        result = described_class.run({page: 2, page_limit: 3})
+        result = described_class.run({page: 2, per_page: 3})
 
         expect(result).to be_valid
         expect(result.errors).to be_empty
