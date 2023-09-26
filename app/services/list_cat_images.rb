@@ -1,6 +1,6 @@
 class ListCatImages < ActiveInteraction::Base
-  integer :per_page, default: 10
-  integer :page, default: 1
+  integer :per_page, default: ListAPI::DEFAULT_PER_PAGE
+  integer :page, default: ListAPI::DEFAULT_PAGE
 
   def execute
     query = get_query
@@ -14,7 +14,7 @@ class ListCatImages < ActiveInteraction::Base
   end
 
   def get_query
-    CatImage.where(status: 'active').order(created_at: :desc).page(self.page).per(self.per_page)
+    CatImage.where(status: CatImageStatus::ACTIVE).order(created_at: :desc).page(self.page).per(self.per_page)
   end
 
   def get_pagination_data(query)

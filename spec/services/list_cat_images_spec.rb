@@ -4,7 +4,7 @@ RSpec.describe ListCatImages do
 
   describe '#execute' do
     context 'with valid attributes' do
-      image = ActionDispatch::Http::UploadedFile.new(
+      image = CatImageFile::OBJECT_TYPE.new(
         tempfile: Tempfile.new(['hello', '.png']),
         type: 'image/png',
         filename: 'original_file_name.png'
@@ -15,70 +15,70 @@ RSpec.describe ListCatImages do
           name: 'name_1',
           age: 2,
           breed: 'Persian',
-          status: 'active',
+          status: CatImageStatus::ACTIVE,
           image: image
         },
         {
           name: 'name_2',
           age: 6,
           breed: 'British',
-          status: 'active',
+          status: CatImageStatus::ACTIVE,
           image: image
         },
         {
           name: 'name_3',
           age: 4,
           breed: 'Persian',
-          status: 'active',
+          status: CatImageStatus::ACTIVE,
           image: image
         },
         {
           name: 'name_4',
           age: 2,
           breed: 'British',
-          status: 'active',
+          status: CatImageStatus::ACTIVE,
           image: image
         },
         {
           name: 'name_5',
           age: 8,
           breed: 'British',
-          status: 'active',
+          status: CatImageStatus::ACTIVE,
           image: image
         },
         {
           name: 'name_6',
           age: 3,
           breed: 'Persian',
-          status: 'active',
+          status: CatImageStatus::ACTIVE,
           image: image
         },
         {
           name: 'name_7',
           age: 5,
           breed: 'British',
-          status: 'active',
+          status: CatImageStatus::ACTIVE,
           image: image
         },
         {
           name: 'name_8',
           age: 11,
           breed: 'Persian',
-          status: 'active',
+          status: CatImageStatus::ACTIVE,
           image: image
         },
         {
           name: 'name_9',
           age: 2,
           breed: 'British',
-          status: 'active',
+          status: CatImageStatus::ACTIVE,
           image: image
         },
         {
           name: 'name_10',
           age: 2,
           breed: 'Persian',
-          status: 'active',
+          status: CatImageStatus::ACTIVE,
           image: image
         }
       ]
@@ -94,7 +94,7 @@ RSpec.describe ListCatImages do
         expect(result.errors).to be_empty
 
         data = result.result
-        count = CatImage.where(status: 'active').count
+        count = CatImage.where(status: CatImageStatus::ACTIVE).count
 
         expect(data).to have_key(:list)
         expect(data).to have_key(:current_page) and expect(data[:current_page]).to eql(1)

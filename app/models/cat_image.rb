@@ -3,6 +3,8 @@ class CatImage < ApplicationRecord
 
   validate :validate_image
 
+  validates :status, inclusion: { in: [CatImageStatus::ACTIVE, CatImageStatus::INACTIVE] }
+
   before_create :rename_image
 
   def get_image_url
@@ -10,7 +12,7 @@ class CatImage < ApplicationRecord
   end
 
   def compressed_image
-    image.variant(resize: "400x300^", crop: '400x300+0+0')
+    image.variant(resize: CatImageFile::RESIZE, crop: CatImageFile::CROP)
   end
 
   private

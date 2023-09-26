@@ -8,8 +8,8 @@ RSpec.describe GetCatImage do
         name: 'Fluffy',
         age: 2,
         breed: 'Persian',
-        status: 'active',
-        image: ActionDispatch::Http::UploadedFile.new(
+        status: CatImageStatus::ACTIVE,
+        image: CatImageFile::OBJECT_TYPE.new(
             tempfile: Tempfile.new(['hello', '.png']),
             type: 'image/png',
             filename: 'original_file_name.png'

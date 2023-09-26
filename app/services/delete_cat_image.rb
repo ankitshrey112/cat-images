@@ -20,12 +20,12 @@ class DeleteCatImage < ActiveInteraction::Base
   end
 
   def get_cat_image
-    CatImage.where("id = ?", self.id).first
+    CatImage.where(status: CatImageStatus::ACTIVE).where("id = ?", self.id).first
   end
 
   def get_update_params
     {
-      status: 'inactive'
+      status: CatImageStatus::INACTIVE
     }
   end
 end

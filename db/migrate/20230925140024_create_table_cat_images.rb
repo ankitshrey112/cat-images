@@ -14,7 +14,7 @@ class CreateTableCatImages < ActiveRecord::Migration[7.0]
       t.index [:status], name: 'index_cats_on_status'
     end
 
-    execute "ALTER TABLE cat_images ADD CONSTRAINT status_check CHECK (status IN ('active', 'inactive'))"
+    execute "ALTER TABLE cat_images ADD CONSTRAINT status_check CHECK (status IN ('#{CatImageStatus::ACTIVE}', '#{CatImageStatus::INACTIVE}'))"
   end
 
   def self.down

@@ -2,7 +2,7 @@ class CreateCatImage < ActiveInteraction::Base
   string :name, default: nil
   integer :age, default: nil
   string :breed, default: nil
-  object :image, class: ActionDispatch::Http::UploadedFile
+  object :image, class: CatImageFile::OBJECT_TYPE
 
   def execute
     cat_image = CatImage.new(get_create_params)
@@ -18,6 +18,6 @@ class CreateCatImage < ActiveInteraction::Base
   end
 
   def get_create_params
-    @_interaction_inputs.merge(status: 'active')
+    @_interaction_inputs.merge(status: CatImageStatus::ACTIVE)
   end
 end
