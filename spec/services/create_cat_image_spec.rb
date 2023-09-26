@@ -9,7 +9,7 @@ RSpec.describe CreateCatImage do
           name: 'Fluffy',
           age: 2,
           breed: 'Persian',
-          image: ActionDispatch::Http::UploadedFile.new(
+          image: CatImageFile::OBJECT_TYPE.new(
               tempfile: tempfile,
               type: 'image/png',
               filename: 'original_file_name.png'

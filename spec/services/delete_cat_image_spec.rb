@@ -9,7 +9,7 @@ RSpec.describe DeleteCatImage do
         age: 2,
         breed: 'Persian',
         status: CatImageStatus::ACTIVE,
-        image: ActionDispatch::Http::UploadedFile.new(
+        image: CatImageFile::OBJECT_TYPE.new(
             tempfile: Tempfile.new(['hello', '.png']),
             type: 'image/png',
             filename: 'original_file_name.png'

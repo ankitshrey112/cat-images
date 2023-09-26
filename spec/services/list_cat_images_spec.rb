@@ -4,7 +4,7 @@ RSpec.describe ListCatImages do
 
   describe '#execute' do
     context 'with valid attributes' do
-      image = ActionDispatch::Http::UploadedFile.new(
+      image = CatImageFile::OBJECT_TYPE.new(
         tempfile: Tempfile.new(['hello', '.png']),
         type: 'image/png',
         filename: 'original_file_name.png'
