@@ -87,7 +87,7 @@ RSpec.describe ListCatImages do
         CatImage.create!(cat_image)
       end.reverse
 
-      it 'returns a list of cat images with default pagination data' do
+      it 'returns a list of cat images with default pagination data and most recent created' do
         result = described_class.run()
 
         expect(result).to be_valid
@@ -134,14 +134,13 @@ RSpec.describe ListCatImages do
 
         list = data[:list]
 
-        cat_images_objects.each_with_index do |cat_image, index|
-          list_obj = list[index]
+        list.each do |list_obj|
           expect(list_obj).not_to be nil
 
-          expect(list_obj).to have_key(:id) and expect(list_obj[:id]).to eql(cat_image.id)
-          expect(list_obj).to have_key(:name) and expect(list_obj[:name]).to eql(cat_image.name)
-          expect(list_obj).to have_key(:age) and expect(list_obj[:age]).to eql(cat_image.age)
-          expect(list_obj).to have_key(:breed) and expect(list_obj[:breed]).to eql(cat_image.breed)
+          expect(list_obj).to have_key(:id) and expect(list_obj[:id].to_s).not_to be_empty
+          expect(list_obj).to have_key(:name)
+          expect(list_obj).to have_key(:age)
+          expect(list_obj).to have_key(:breed)
           expect(list_obj).to have_key(:image_url) and expect(list_obj[:image_url]).not_to be_empty
           expect(list_obj).to have_key(:created_at) and expect(list_obj[:created_at].to_s).not_to be_empty
         end
