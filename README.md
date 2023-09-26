@@ -1,85 +1,171 @@
+Creating comprehensive documentation for a Rails application that manages cat pictures with CRUD (Create, Read, Update, Delete) APIs is crucial for the understanding and usage of your application by developers, testers, and other stakeholders. Below is an example of documentation for such an application. Please adapt and expand upon it according to your project's specific needs:
 
-**Ruby on Rails Carpark Availability API**
+# Cat Picture Management API Documentation
 
+**Table of Contents**
+- [Introduction](#introduction)
+- [Authentication](#authentication)
+- [Base URL](#base-url)
+- [Endpoints](#endpoints)
+  - [1. Create a Cat Picture](#1-create-a-cat-picture)
+  - [2. List Cat Pictures](#2-list-cat-pictures)
+  - [3. Get Cat Picture by ID](#3-get-cat-picture-by-id)
+  - [4. Update Cat Picture](#4-update-cat-picture)
+  - [5. Delete Cat Picture](#5-delete-cat-picture)
+- [Request and Response Examples](#request-and-response-examples)
+- [Status Codes](#status-codes)
+- [Error Responses](#error-responses)
+- [Rate Limiting](#rate-limiting)
+- [Conclusion](#conclusion)
 
-The "Ruby on Rails Carpark Availability API" is a robust web application built using the Ruby on Rails framework. Its primary purpose is to deliver a powerful and accurate API endpoint that facilitates the retrieval of real-time carpark availability data in Singapore. The API is designed to provide users with the most up-to-date information about available parking slots, based on the latitude and longitude coordinates provided by the user.
+## Introduction
 
+Welcome to the Cat Picture Management API documentation. This API allows you to manage cat pictures, including creating, listing, getting, updating, and deleting cat pictures. Each API endpoint is designed to provide a specific set of functionalities for managing cat pictures in your application.
 
-**Features**
+## Authentication
 
+Authentication is required for some API endpoints to ensure the security of your cat picture data. Please refer to the specific endpoint details for authentication requirements.
 
-- Live Carpark Availability: The API is meticulously designed to deliver real-time carpark availability data, ensuring that users receive the latest information about parking slot availability.
+## Base URL
 
-- Precise Location-Based Search: Users can effortlessly provide their exact latitude and longitude coordinates, which the API utilizes to return a list of the nearest carparks in Singapore.
+The base URL for all API endpoints is:
 
-- Data Sourced from HDB: The API fetches its data from the Housing & Development Board (HDB) website, a reliable and authoritative source for carpark information in Singapore.
+```
+https://your-api-domain.com/api/v1/
+```
 
+## Endpoints
 
-**How It Works**
+### 1. Create a Cat Picture
 
+**Endpoint:** `POST /cat_pictures`
 
-- User's Location Coordinates: Users input their current location's latitude and longitude coordinates through the API's intuitive request structure.
+**Description:** Upload a new cat picture to the database.
 
-- API Request Handling: The API processes the incoming request and uses the provided coordinates to identify the nearest carparks.
+**Request Parameters:**
 
-- Data Retrieval from HDB: The API accesses the Housing & Development Board website's comprehensive carpark dataset to gather accurate carpark details, including location, total slots, and current availability.
+- `image` (File, required): The cat picture image file.
+- `title` (String, required): A title or description for the cat picture.
 
-- Response Formation: The API constructs a well-structured JSON response containing the list of nearest carparks along with their respective availability information.
+**Authentication:** Required (API Key or Token)
 
+### 2. List Cat Pictures
 
-**Setup Instructions**
+**Endpoint:** `GET /cat_pictures`
 
+**Description:** Retrieve a list of all cat pictures in the database.
 
-1. ./deploy-app.sh: Starts MySQL server(if not already running) and restarts rails application server on seperate containers
+**Request Parameters:** None
 
-2. ./import-carpark-information.sh: Imports carparks information from the carparks information HBD dataset already included as csv file in tmp directory.
+**Authentication:** Not required
 
-3. ./update_carpark_availability.sh: Updates carpark availability with latest availability information fetched from HBD API.
+### 3. Get Cat Picture by ID
 
-4. Access the API: http://localhost:3000/carparks/nearest?latitude=1.37326&longitude=103.897&page=1&per_page=10
+**Endpoint:** `GET /cat_pictures/:id`
 
-5. (Optional) ./run-tests.sh: Run Rspec tests. 
+**Description:** Retrieve a specific cat picture by its unique ID.
 
+**Request Parameters:**
 
-**Approach**
+- `id` (Integer, required): The ID of the cat picture to retrieve.
 
+**Authentication:** Not required
 
-Models:
+### 4. Update Cat Picture
 
-1. Carpark:
-	- The Carpark model is used to store carpark information.
+**Endpoint:** `PUT /cat_pictures/:id`
 
-	- It includes attributes like carpark_number, address, latitude, longitude and other fields.
+**Description:** Update the details or image of a cat picture.
 
-	- The model utilizes the geocoder gem for geocoding the addresses and coordinates.
+**Request Parameters:**
 
-	- One Carpark may have only one CarparkAvailability.
+- `id` (Integer, required): The ID of the cat picture to update.
+- `image` (File, optional): The updated cat picture image file.
+- `title` (String, optional): The updated title or description for the cat picture.
 
-	- Static data is loaded into to model from HBD dataset.
+**Authentication:** Required (API Key or Token)
 
-2. CarparkAvailability:
-	- The CarparkAvailability model stores real-time availability information for carparks.
+### 5. Delete Cat Picture
 
-	- It includes attributes such as carpark_number, total_slots, and available_slots.
+**Endpoint:** `DELETE /cat_pictures/:id`
 
-	- every CarparkAvailability belongs to one Carpark.
+**Description:** Delete a specific cat picture by its unique ID.
 
-	- Data will be loaded from HBD API.
+**Request Parameters:**
 
+- `id` (Integer, required): The ID of the cat picture to delete.
 
-Gems Used:
+**Authentication:** Required (API Key or Token)
 
-1. geocoder: powerful ror geocoding gem, used to search closest carparks to a given geo co-ordinate.
+## Request and Response Examples
 
-	Benefits of Using Geocoder: 
-		Accuracy: Geocoder provides accurate geocoding and reverse geocoding capabilities, ensuring precise location-based searches
-		Simplicity: Implementing nearest searches becomes straightforward using the built-in methods provided by the geocoder gem.
-		Flexibility: You can adjust search radius and parameters to suit your specific needs.
+Here are some request and response examples for each endpoint:
 
-2. kaminari: used for pagination
+### Create a Cat Picture (POST /cat_pictures)
 
-3. rest-client: gem is used to make API calls to an external data source
+**Request:**
 
-4. active_interaction: gem is used for seperation of concerns and easy input validation.
+```http
+POST /api/v1/cat_pictures
+Content-Type: multipart/form-data
+Authorization: Bearer YOUR_API_TOKEN
 
-5. rspec: to write unit tests
+multipart-form-data:
+- image: [cat_picture.jpg]
+- title: "Cute Cat"
+```
+
+**Response (Success):**
+
+```json
+{
+  "id": 1,
+  "title": "Cute Cat",
+  "image_url": "https://your-api-domain.com/uploads/cat_picture.jpg",
+  "created_at": "2023-09-30T12:00:00Z"
+}
+```
+
+### List Cat Pictures (GET /cat_pictures)
+
+**Request:**
+
+```http
+GET /api/v1/cat_pictures
+```
+
+**Response (Success):**
+
+```json
+[
+  {
+    "id": 1,
+    "title": "Cute Cat 1",
+    "image_url": "https://your-api-domain.com/uploads/cat_picture_1.jpg",
+    "created_at": "2023-09-30T12:00:00Z"
+  },
+  {
+    "id": 2,
+    "title": "Cute Cat 2",
+    "image_url": "https://your-api-domain.com/uploads/cat_picture_2.jpg",
+    "created_at": "2023-09-30T12:30:00Z"
+  }
+]
+```
+
+### Get Cat Picture by ID (GET /cat_pictures/:id)
+
+**Request:**
+
+```http
+GET /api/v1/cat_pictures/1
+```
+
+**Response (Success):**
+
+```json
+{
+  "id": 1,
+  "title": "Cute Cat 1",
+  "image_url": "https://your-api-domain.com/uploads/cat_picture_1.jpg",
+  "created_at": "2023-09-30T
