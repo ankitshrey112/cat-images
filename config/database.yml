@@ -14,7 +14,12 @@ development:
 
 test:
   <<: *default
+  host: test_db
+  #port: 3307
+  database: test_cats-db
+  username: test_user
+  password: test_password
 
 production:
   <<: *default
-
+  

@@ -11,6 +11,19 @@ services:
             MYSQL_PASSWORD: password
         ports:
             - "3307:3306"
+
+    test_db:
+        platform: linux/x86_64
+        image: mysql:5.7
+        restart: always
+        environment:
+          MYSQL_ROOT_PASSWORD: test_password
+          MYSQL_DATABASE: test_cats-db
+          MYSQL_USER: test_user
+          MYSQL_PASSWORD: test_password
+        ports:
+            - "3308:3306"
+
     web:
         platform: linux/x86_64
         build: .
@@ -20,5 +33,6 @@ services:
             - .:/app
         depends_on:
             - db
+            - test_db
         environment:
             RAILS_ENV: development

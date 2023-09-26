@@ -7,6 +7,10 @@ BOLD='\033[1m'
 
 start_time=$(date +%s.%N)
 
+echo -e "${YELLOW}******************************************************************** Running database migration${NC}"
+docker-compose exec web bundle exec rails db:migrate RAILS_ENV=test
+echo -e "${GREEN}******************************************************************** Database migrations completed successfully${NC}"
+
 echo -e "${YELLOW}******************************************************************** Running tests${NC}"
 docker-compose exec web bundle exec rspec ./spec/services/create_cat_image_spec.rb
 docker-compose exec web bundle exec rspec ./spec/services/delete_cat_image_spec.rb
