@@ -14,7 +14,7 @@ class ListCatImages < ActiveInteraction::Base
   end
 
   def get_query
-    CatImage.where(status: 'active').order(created_at: :desc).page(self.page).per(self.per_page)
+    CatImage.where(status: CatImageStatus::ACTIVE).order(created_at: :desc).page(self.page).per(self.per_page)
   end
 
   def get_pagination_data(query)

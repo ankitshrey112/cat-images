@@ -8,7 +8,7 @@ RSpec.describe UpdateCatImage do
         name: 'Fluffy',
         age: 2,
         breed: 'Persian',
-        status: 'active',
+        status: CatImageStatus::ACTIVE,
         image: ActionDispatch::Http::UploadedFile.new(
             tempfile: Tempfile.new(['hello', '.png']),
             type: 'image/png',

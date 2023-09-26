@@ -3,6 +3,8 @@ class CatImage < ApplicationRecord
 
   validate :validate_image
 
+  validates :status, inclusion: { in: [CatImageStatus::ACTIVE, CatImageStatus::INACTIVE] }
+
   before_create :rename_image
 
   def get_image_url

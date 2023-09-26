@@ -25,7 +25,7 @@ class DeleteCatImage < ActiveInteraction::Base
 
   def get_update_params
     {
-      status: 'inactive'
+      status: CatImageStatus::INACTIVE
     }
   end
 end

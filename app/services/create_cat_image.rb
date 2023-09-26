@@ -18,6 +18,6 @@ class CreateCatImage < ActiveInteraction::Base
   end
 
   def get_create_params
-    @_interaction_inputs.merge(status: 'active')
+    @_interaction_inputs.merge(status: CatImageStatus::ACTIVE)
   end
 end

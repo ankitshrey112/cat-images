@@ -8,7 +8,7 @@ RSpec.describe DeleteCatImage do
         name: 'Fluffy',
         age: 2,
         breed: 'Persian',
-        status: 'active',
+        status: CatImageStatus::ACTIVE,
         image: ActionDispatch::Http::UploadedFile.new(
             tempfile: Tempfile.new(['hello', '.png']),
             type: 'image/png',
@@ -23,7 +23,7 @@ RSpec.describe DeleteCatImage do
         expect(result.result).to have_key(:id)
 
         cat_image.reload
-        expect(cat_image.status).to eq('inactive')
+        expect(cat_image.status).to eq(CatImageStatus::INACTIVE)
       end
     end
 
