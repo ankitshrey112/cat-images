@@ -87,7 +87,7 @@ RSpec.describe ListCatImages do
         CatImage.create!(cat_image)
       end.reverse
 
-      it 'returns a list of cat images with pagination data' do
+      it 'returns a list of cat images with default pagination data and most recent created' do
         result = described_class.run()
 
         expect(result).to be_valid
@@ -112,6 +112,35 @@ RSpec.describe ListCatImages do
           expect(list_obj).to have_key(:name) and expect(list_obj[:name]).to eql(cat_image.name)
           expect(list_obj).to have_key(:age) and expect(list_obj[:age]).to eql(cat_image.age)
           expect(list_obj).to have_key(:breed) and expect(list_obj[:breed]).to eql(cat_image.breed)
+          expect(list_obj).to have_key(:image_url) and expect(list_obj[:image_url]).not_to be_empty
+          expect(list_obj).to have_key(:created_at) and expect(list_obj[:created_at].to_s).not_to be_empty
+        end
+      end
+
+      it 'returns a list of cat images with custom pagination data' do
+        result = described_class.run({page: 2, per_page: 3})
+
+        expect(result).to be_valid
+        expect(result.errors).to be_empty
+
+        data = result.result
+        count = CatImage.where(status: CatImageStatus::ACTIVE).count
+
+        expect(data).to have_key(:list)
+        expect(data).to have_key(:current_page) and expect(data[:current_page]).to eql(2)
+        expect(data).to have_key(:current_count) and expect(data[:current_count]).to eql(3)
+        expect(data).to have_key(:total_pages) and expect(data[:total_pages]).to eql(count/3 + (count%3 == 0 ? 0 : 1))
+        expect(data).to have_key(:total_count) and expect(data[:total_count]).to eql(count)
+
+        list = data[:list]
+
+        list.each do |list_obj|
+          expect(list_obj).not_to be nil
+
+          expect(list_obj).to have_key(:id) and expect(list_obj[:id].to_s).not_to be_empty
+          expect(list_obj).to have_key(:name)
+          expect(list_obj).to have_key(:age)
+          expect(list_obj).to have_key(:breed)
           expect(list_obj).to have_key(:image_url) and expect(list_obj[:image_url]).not_to be_empty
           expect(list_obj).to have_key(:created_at) and expect(list_obj[:created_at].to_s).not_to be_empty
         end
