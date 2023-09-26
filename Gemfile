@@ -90,3 +90,5 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+
+gem 'case_transform', '0.2'

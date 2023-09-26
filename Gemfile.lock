@@ -305,6 +305,7 @@ DEPENDENCIES
   active_model_serializers (~> 0.10.0)
   bootsnap
   capybara
+  case_transform (= 0.2)
   debug
   geocoder
   image_processing (~> 1.2)
