@@ -1,6 +1,6 @@
 class ListCatImages < ActiveInteraction::Base
-  integer :per_page, default: 10
-  integer :page, default: 1
+  integer :per_page, default: ListAPI::DEFAULT_PER_PAGE
+  integer :page, default: ListAPI::DEFAULT_PAGE
 
   def execute
     query = get_query
