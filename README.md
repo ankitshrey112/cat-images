@@ -20,7 +20,9 @@
 
 Welcome to the Cat Picture Management API documentation.The Cat Picture Management App is a Ruby on Rails application that allows users to manage and share cat pictures. It provides a set of RESTful APIs for creating, listing, getting, updating, and deleting cat pictures.Each API endpoint is designed to provide a specific set of functionalities for managing cat pictures in your application. This documentation provides an overview of the application and instructions for setup and usage.
 
----
+
+
+
 
 ## Getting Started and Deployment
 
@@ -63,7 +65,7 @@ http://localhost:3000
 
 You can now start managing and sharing cat pictures using the application.
 
----
+
 
 ## Authentication
 
@@ -77,7 +79,7 @@ The base URL for all API endpoints is:
 ```
 http://localhost:3000/cat_images/
 ```
----
+
 
 ## Endpoints/Request and Response Examples
 
@@ -222,7 +224,7 @@ http://localhost:3000/cat_images/
 ```
 **Possible Status Codes:** 200/401/400/500/404
 
----
+
 
 ## Status Codes/Error Responses
 
@@ -260,7 +262,7 @@ HTTP status codes are used to indicate the outcome of API requests. The followin
 
 Please refer to the specific API endpoints and their respective documentation for more details on the status codes they may return.
 
----
+
 
 ## Tests
 
@@ -314,7 +316,7 @@ You can run all the tests for all services together by executing the following s
 
 This script will execute all the test suites in sequence, providing comprehensive coverage of you API endpoints.
 
----
+
 
 ## Conclusion
 
@@ -322,5 +324,4 @@ In conclusion, this documentation provides a comprehensive guide to the Cat Pict
 
 By following the provided instructions, you can quickly deploy the application and begin using these powerful APIs to enhance your cat picture management experience.
 
----
 ---
