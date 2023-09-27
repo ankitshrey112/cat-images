@@ -3,12 +3,16 @@ require 'rails_helper'
 RSpec.describe UpdateCatImage do
 
   describe '#execute' do
+    User.delete_all
+    user = User.create!({email: 'test@test.com', password: 'test123'})
+
     context 'with valid attributes' do
       cat_image = CatImage.create!({
         name: 'Fluffy',
         age: 2,
         breed: 'Persian',
         status: CatImageStatus::ACTIVE,
+        created_by_user_id: user.id,
         image: CatImageFile::OBJECT_TYPE.new(
             tempfile: Tempfile.new(['hello', '.png']),
             type: 'image/png',
@@ -21,6 +25,7 @@ RSpec.describe UpdateCatImage do
           name: 'Fluffy_updated',
           age: 3,
           breed: 'British',
+          performed_by_user_id: user.id,
           image: CatImageFile::OBJECT_TYPE.new(
               tempfile: Tempfile.new(['hello', '.png']),
               type: 'image/png',

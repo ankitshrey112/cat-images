@@ -3,6 +3,9 @@ require 'rails_helper'
 RSpec.describe ListCatImages do
 
   describe '#execute' do
+    User.delete_all
+    user = User.create!({email: 'test@test.com', password: 'test123'})
+
     context 'with valid attributes' do
       image = CatImageFile::OBJECT_TYPE.new(
         tempfile: Tempfile.new(['hello', '.png']),
@@ -16,6 +19,7 @@ RSpec.describe ListCatImages do
           age: 2,
           breed: 'Persian',
           status: CatImageStatus::ACTIVE,
+          created_by_user_id: user.id,
           image: image
         },
         {
@@ -23,6 +27,7 @@ RSpec.describe ListCatImages do
           age: 6,
           breed: 'British',
           status: CatImageStatus::ACTIVE,
+          created_by_user_id: user.id,
           image: image
         },
         {
@@ -30,6 +35,7 @@ RSpec.describe ListCatImages do
           age: 4,
           breed: 'Persian',
           status: CatImageStatus::ACTIVE,
+          created_by_user_id: user.id,
           image: image
         },
         {
@@ -37,6 +43,7 @@ RSpec.describe ListCatImages do
           age: 2,
           breed: 'British',
           status: CatImageStatus::ACTIVE,
+          created_by_user_id: user.id,
           image: image
         },
         {
@@ -44,6 +51,7 @@ RSpec.describe ListCatImages do
           age: 8,
           breed: 'British',
           status: CatImageStatus::ACTIVE,
+          created_by_user_id: user.id,
           image: image
         },
         {
@@ -51,6 +59,7 @@ RSpec.describe ListCatImages do
           age: 3,
           breed: 'Persian',
           status: CatImageStatus::ACTIVE,
+          created_by_user_id: user.id,
           image: image
         },
         {
@@ -58,6 +67,7 @@ RSpec.describe ListCatImages do
           age: 5,
           breed: 'British',
           status: CatImageStatus::ACTIVE,
+          created_by_user_id: user.id,
           image: image
         },
         {
@@ -65,6 +75,7 @@ RSpec.describe ListCatImages do
           age: 11,
           breed: 'Persian',
           status: CatImageStatus::ACTIVE,
+          created_by_user_id: user.id,
           image: image
         },
         {
@@ -72,6 +83,7 @@ RSpec.describe ListCatImages do
           age: 2,
           breed: 'British',
           status: CatImageStatus::ACTIVE,
+          created_by_user_id: user.id,
           image: image
         },
         {
@@ -79,6 +91,7 @@ RSpec.describe ListCatImages do
           age: 2,
           breed: 'Persian',
           status: CatImageStatus::ACTIVE,
+          created_by_user_id: user.id,
           image: image
         }
       ]
@@ -88,7 +101,7 @@ RSpec.describe ListCatImages do
       end.reverse
 
       it 'returns a list of cat images with default pagination data and most recent created' do
-        result = described_class.run()
+        result = described_class.run({ performed_by_user_id: user.id })
 
         expect(result).to be_valid
         expect(result.errors).to be_empty
@@ -118,7 +131,7 @@ RSpec.describe ListCatImages do
       end
 
       it 'returns a list of cat images with custom pagination data' do
-        result = described_class.run({page: 2, per_page: 3})
+        result = described_class.run({performed_by_user_id: user.id, page: 2, per_page: 3})
 
         expect(result).to be_valid
         expect(result.errors).to be_empty

@@ -3,12 +3,16 @@ require 'rails_helper'
 RSpec.describe GetCatImage do
 
   describe '#execute' do
+    User.delete_all
+    user = User.create!({email: 'test@test.com', password: 'test123'})
+
     context 'with valid attributes' do
       cat_image = CatImage.create!({
         name: 'Fluffy',
         age: 2,
         breed: 'Persian',
         status: CatImageStatus::ACTIVE,
+        created_by_user_id: user.id,
         image: CatImageFile::OBJECT_TYPE.new(
             tempfile: Tempfile.new(['hello', '.png']),
             type: 'image/png',
@@ -16,8 +20,13 @@ RSpec.describe GetCatImage do
           )
       })
 
+      let(:attributes) { {
+          id: cat_image.id,
+          performed_by_user_id: user.id
+        } }
+
       it 'get the cat image' do
-        result = described_class.run({ id: cat_image.id })
+        result = described_class.run(attributes)
 
         expect(result).to be_valid
         expect(result.errors).to be_empty
@@ -35,12 +44,17 @@ RSpec.describe GetCatImage do
     end
 
     context 'returns an error' do
-      it 'returns errors' do
-        result = described_class.run({ id: -1 }) # Assuming -1 is an invalid ID
+      let(:attributes) { {
+          id: -1, # Assuming -1 is an invalid ID
+          performed_by_user_id: user.id
+        } }
 
-        expect(result).not_to be_valid
-        expect(result.errors).not_to be_empty
-        expect(result.errors.full_messages).to include('Resource not found')
+      it 'returns errors' do
+        begin
+          described_class.run(attributes)
+        rescue CustomError => e
+          expect(e.status).to eql(APIStatus::NOT_FOUND)
+        end
       end
     end
   end

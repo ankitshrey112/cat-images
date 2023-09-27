@@ -3,12 +3,16 @@ require 'rails_helper'
 RSpec.describe CreateCatImage do
 
   describe '#execute' do
+    User.delete_all
+    user = User.create!({email: 'test@test.com', password: 'test123'})
+
     context 'with valid attributes' do
       tempfile = Tempfile.new(['hello', '.png'])
       let(:attributes) { {
           name: 'Fluffy',
           age: 2,
           breed: 'Persian',
+          performed_by_user_id: user.id,
           image: CatImageFile::OBJECT_TYPE.new(
               tempfile: tempfile,
               type: 'image/png',
@@ -33,7 +37,7 @@ RSpec.describe CreateCatImage do
     end
 
     context 'with invalid attributes' do
-      let(:attributes) { { } }
+      let(:attributes) { { performed_by_user_id: user.id } }
 
       it 'returns errors' do
         result = described_class.run(attributes)
