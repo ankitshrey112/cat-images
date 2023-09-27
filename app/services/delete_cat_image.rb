@@ -13,7 +13,8 @@ class DeleteCatImage < ActiveInteraction::Base
     end
 
     return {
-      id: cat_image.id
+      id: cat_image.id,
+      status: :ok
     }
   end
 
