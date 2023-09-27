@@ -8,12 +8,12 @@ class CreateCatImage < ActiveInteraction::Base
     cat_image = CatImage.new(get_create_params)
 
     unless cat_image.save
-      raise CustomError.new(cat_image.errors.full_messages.join(','), :bad_request)
+      raise CustomError.new(cat_image.errors.full_messages.join(','), APIStatus::BAD_REQUEST)
     end
 
     return {
       id: cat_image.id,
-      status: :created
+      status: APIStatus::CREATED
     }
   end
 

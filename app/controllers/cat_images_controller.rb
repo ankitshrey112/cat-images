@@ -7,7 +7,7 @@ class CatImagesController < ApplicationController
   protect_from_forgery with: :null_session
 
   def health
-    render json: { status: SUCCESS }, status: :ok
+    render json: { status: SUCCESS }, status: APIStatus::OK
   end
 
   def create_cat_image
@@ -43,7 +43,7 @@ class CatImagesController < ApplicationController
       if api_request.valid?
         render json: api_request.result.except(:status), status: api_request.result[:status]
       else
-        render json: api_request.errors.full_messages, status: :bad_request
+        render json: api_request.errors.full_messages, status: APIStatus::BAD_REQUEST
       end
     rescue CustomError => e
       render json: { error: e.message }, status: e.status

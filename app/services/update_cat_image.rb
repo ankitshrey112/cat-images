@@ -9,16 +9,16 @@ class UpdateCatImage < ActiveInteraction::Base
     cat_image = get_cat_image
 
     unless cat_image.present?
-      raise CustomError.new('Resource Not Found', :not_found)
+      raise CustomError.new('Resource Not Found', APIStatus::NOT_FOUND)
     end
 
     unless cat_image.update(get_update_params)
-      raise CustomError.new(cat_image.errors.full_messages.join(','), :bad_request)
+      raise CustomError.new(cat_image.errors.full_messages.join(','), APIStatus::BAD_REQUEST)
     end
 
     return {
       id: cat_image.id,
-      status: :ok
+      status: APIStatus::OK
     }
   end
 

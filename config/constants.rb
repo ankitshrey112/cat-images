@@ -13,3 +13,10 @@ module ListAPI
   DEFAULT_PAGE = 1.freeze
   DEFAULT_PER_PAGE = 10.freeze
 end
+
+module APIStatus
+  NOT_FOUND = :not_found.freeze
+  BAD_REQUEST = :bad_request.freeze
+  CREATED = :created.freeze
+  OK = :ok.freeze
+end
