@@ -30,10 +30,6 @@ until docker-compose exec db mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD} -e "SELEC
 done
 echo -e "${GREEN}******************************************************************** Database connected successfully${NC}"
 
-echo -e "${YELLOW}******************************************************************** Setting up Active Storage${NC}"
-docker-compose exec web bundle exec rails active_storage:install
-echo -e "${GREEN}******************************************************************** Active Storage setup completed${NC}"
-
 echo -e "${YELLOW}******************************************************************** Running database migration${NC}"
 docker-compose exec web bundle exec rails db:migrate
 echo -e "${GREEN}******************************************************************** Database migrations completed successfully${NC}"
