@@ -12,8 +12,7 @@
   - 3. Get Cat Picture by ID
   - 4. Update Cat Picture
   - 5. Delete Cat Picture
-- Status Codes
-- Error Responses
+- Status Codes/Error Responses
 - Tests
 - Conclusion
 
@@ -209,3 +208,40 @@ http://localhost:3000/cat_images/
   "id": 1
 }
 ```
+
+## Status Codes/Error Responses
+
+HTTP status codes are used to indicate the outcome of API requests. The following status codes have been commonly used in this API:
+
+### 200 OK
+
+- **Description**: The request was successful, and the server has returned the requested data.
+- **Usage**: This status code is typically used for successful retrieval of resources in GET requests.
+
+### 201 Created
+
+- **Description**: The resource has been successfully created on the server.
+- **Usage**: This status code is typically used for successful resource creation in POST requests.
+
+### 400 Bad Request
+
+- **Description**: The request is invalid or contains malformed data.
+- **Usage**: This status code is returned when the client sends a request with invalid parameters or data.
+
+### 401 Unauthorized
+
+- **Description**: The client is not authenticated to access the requested resource.
+- **Usage**: This status code is returned when the client lacks proper authentication credentials. The client should provide valid authentication to access the resource.
+
+### 404 Not Found
+
+- **Description**: The requested resource could not be found on the server.
+- **Usage**: This status code is returned when the server cannot locate the resource specified in the request.
+
+### 500 Internal Server Error
+
+- **Description**: An unexpected error occurred on the server.
+- **Usage**: This status code is returned when an unexpected error occurs during the processing of the request. It indicates a problem on the server-side.
+
+Please refer to the specific API endpoints and their respective documentation for more details on the status codes they may return.
+---
