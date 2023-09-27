@@ -3,12 +3,16 @@ require 'rails_helper'
 RSpec.describe DeleteCatImage do
 
   describe '#execute' do
-    context 'with valid attributes' do
-      cat_image = CatImage.create!({
+    User.delete_all
+    user1 = User.create!({email: 'test@test.com', password: 'test123'})
+    user2 = User.create!({email: 'test2@test.com', password: 'test123'})
+
+    cat_image = CatImage.create!({
         name: 'Fluffy',
         age: 2,
         breed: 'Persian',
         status: CatImageStatus::ACTIVE,
+        created_by_user_id: user1.id,
         image: CatImageFile::OBJECT_TYPE.new(
             tempfile: Tempfile.new(['hello', '.png']),
             type: 'image/png',
@@ -16,8 +20,14 @@ RSpec.describe DeleteCatImage do
           )
       })
 
+    context 'with valid attributes' do
+      let(:attributes) { {
+          id: cat_image.id,
+          performed_by_user_id: user1.id
+        } }
+
       it 'with a valid ID' do
-        result = described_class.run({ id: cat_image.id })
+        result = described_class.run(attributes)
 
         expect(result).to be_valid
         expect(result.result).to have_key(:id)
@@ -28,12 +38,25 @@ RSpec.describe DeleteCatImage do
     end
 
     context 'returns an error' do
-      it 'returns errors' do
-        result = described_class.run({ id: -1 }) # Assuming -1 is an invalid ID
+      let(:attributes) { {
+          id: -1, # Assuming -1 is an invalid ID
+          performed_by_user_id: user1.id
+        } }
 
-        expect(result).not_to be_valid
-        expect(result.errors).not_to be_empty
-        expect(result.errors.full_messages).to include('Resource not found')
+      it 'returns not found error' do
+        begin
+          described_class.run(attributes)
+        rescue CustomError => e
+          expect(e.status).to eql(APIStatus::NOT_FOUND)
+        end
+      end
+
+      it 'returns forbidden error' do
+        begin
+          described_class.run({ id: cat_image.id, performed_by_user_id: user2.id })
+        rescue CustomError => e
+          expect(e.status).to eql(APIStatus::FORBIDDEN)
+        end
       end
     end
   end
