@@ -93,3 +93,6 @@ group :test do
 end
 
 gem 'case_transform', '0.2'
+
+gem 'devise'
+
