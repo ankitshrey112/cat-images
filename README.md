@@ -20,6 +20,8 @@
 
 Welcome to the Cat Picture Management API documentation.The Cat Picture Management App is a Ruby on Rails application that allows users to manage and share cat pictures. It provides a set of RESTful APIs for creating, listing, getting, updating, and deleting cat pictures.Each API endpoint is designed to provide a specific set of functionalities for managing cat pictures in your application. This documentation provides an overview of the application and instructions for setup and usage.
 
+---
+
 ## Getting Started and Deployment
 
 ### Prerequisites
@@ -61,9 +63,12 @@ http://localhost:3000
 
 You can now start managing and sharing cat pictures using the application.
 
+---
+
 ## Authentication
 
 The Cat Picture Management App APIs are secured using Basic Authentication. Basic Authentication requires clients to include a username and password with their API requests. In our case, the username is "**ankit**" and the password is **12345**
+
 
 ## Base URL
 
@@ -72,6 +77,7 @@ The base URL for all API endpoints is:
 ```
 http://localhost:3000/cat_images/
 ```
+---
 
 ## Endpoints/Request and Response Examples
 
@@ -97,6 +103,8 @@ http://localhost:3000/cat_images/
   "id": 1
 }
 ```
+
+**Possible Status Codes:** 201/401/400/500
 
 ### 2. List Cat Pictures
 
@@ -138,6 +146,8 @@ http://localhost:3000/cat_images/
 }
 ```
 
+**Possible Status Codes:** 200/401/400/500
+
 ### 3. Get Cat Picture by ID
 
 **Endpoint:** `GET /get/:id`
@@ -164,6 +174,7 @@ http://localhost:3000/cat_images/
   }
 }
 ```
+**Possible Status Codes:** 200/401/400/500/404
 
 ### 4. Update Cat Picture
 
@@ -188,6 +199,7 @@ http://localhost:3000/cat_images/
   "id": 1
 }
 ```
+**Possible Status Codes:** 200/401/400/500/404
 
 ### 5. Delete Cat Picture
 
@@ -208,6 +220,9 @@ http://localhost:3000/cat_images/
   "id": 1
 }
 ```
+**Possible Status Codes:** 200/401/400/500/404
+
+---
 
 ## Status Codes/Error Responses
 
@@ -307,4 +322,5 @@ In conclusion, this documentation provides a comprehensive guide to the Cat Pict
 
 By following the provided instructions, you can quickly deploy the application and begin using these powerful APIs to enhance your cat picture management experience.
 
+---
 ---
