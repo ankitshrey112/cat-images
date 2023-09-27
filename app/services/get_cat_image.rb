@@ -5,14 +5,14 @@ class GetCatImage < ActiveInteraction::Base
     cat_image = get_cat_image
 
     unless cat_image.present?
-      raise CustomError.new('Resource Not Found', :not_found)
+      raise CustomError.new('Resource Not Found', APIStatus::NOT_FOUND)
     end
 
     data = get_data(cat_image)
 
     return {
       data: data,
-      status: :ok
+      status: APIStatus::OK
     }
   end
 

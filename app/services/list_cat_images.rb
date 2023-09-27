@@ -10,7 +10,7 @@ class ListCatImages < ActiveInteraction::Base
 
     return {
       list: data,
-      status: :ok
+      status: APIStatus::OK
     }.merge!(pagination_data)
   end
 

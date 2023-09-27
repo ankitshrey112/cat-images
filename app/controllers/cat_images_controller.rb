@@ -1,13 +1,12 @@
 class CatImagesController < ApplicationController
   SUCCESS = 'OK'
-  BAD_REQUEST = '400 Bad Request'
 
   http_basic_authenticate_with name: Rails.application.credentials[:http_secret][:username], password: Rails.application.credentials[:http_secret][:password]
 
   protect_from_forgery with: :null_session
 
   def health
-    render json: { status: SUCCESS }, status: :ok
+    render json: { status: SUCCESS }, status: APIStatus::OK
   end
 
   def create_cat_image
@@ -43,7 +42,7 @@ class CatImagesController < ApplicationController
       if api_request.valid?
         render json: api_request.result.except(:status), status: api_request.result[:status]
       else
-        render json: api_request.errors.full_messages, status: :bad_request
+        render json: api_request.errors.full_messages, status: APIStatus::BAD_REQUEST
       end
     rescue CustomError => e
       render json: { error: e.message }, status: e.status
