@@ -1,7 +1,9 @@
 class CatImagesController < ApplicationController
   SUCCESS = 'OK'
 
-  http_basic_authenticate_with name: Rails.application.credentials[:http_secret][:username], password: Rails.application.credentials[:http_secret][:password]
+  before_action :authenticate_user!
+
+  # http_basic_authenticate_with name: Rails.application.credentials[:http_secret][:username], password: Rails.application.credentials[:http_secret][:password]
 
   protect_from_forgery with: :null_session
 
