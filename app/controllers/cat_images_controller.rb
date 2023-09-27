@@ -31,9 +31,6 @@ class CatImagesController < ApplicationController
 
   # Do not change below method, just add new controllers above and implement new interaction in services with same name.
   def get_service_respone(request)
-    puts ENV['RAILS_ENV']
-    print current_user
-    puts
     interaction = request.camelize.constantize
     @required_params = interaction.new.inputs.keys.map(&:to_sym)
 
