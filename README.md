@@ -5,6 +5,7 @@
 - Introduction
 - Getting Started
 - Authentication
+- Authrorization
 - Base URL
 - Endpoints/Request and Response Examples
   - 1. Create a Cat Picture
@@ -15,12 +16,11 @@
 - Status Codes/Error Responses
 - Tests
 - Conclusion
+- Postman Collection
 
 ## Introduction
 
 Welcome to the Cat Picture Management API documentation.The Cat Picture Management App is a Ruby on Rails application that allows users to manage and share cat pictures. It provides a set of RESTful APIs for creating, listing, getting, updating, and deleting cat pictures.Each API endpoint is designed to provide a specific set of functionalities for managing cat pictures in your application. This documentation provides an overview of the application and instructions for setup and usage.
-
-
 
 
 
@@ -56,12 +56,18 @@ To deploy the Cat Picture Management App and get started quickly, follow these s
    ./deploy-app.sh
    ```
 
-The deployment script will automatically set up the application, install dependencies, configure the database, and start the Rails server.
-Once the deployment script completes successfully, you can access the Cat Picture Management App by opening a web browser and navigating to:
+    The deployment script will automatically set up the application, install dependencies, configure the database, and start the Rails server.
+    Once the deployment script completes successfully, you can access the Cat Picture Management App by opening a web browser and navigating to:
+  
+    ```
+    http://localhost:3000
+    ```
+  
+    This will take you to a login page.
 
-```
-http://localhost:3000
-```
+4. Sign Up:
+
+    On the login page select sign up option and sign up with your email and password.
 
 You can now start managing and sharing cat pictures using the application.
 
@@ -69,7 +75,29 @@ You can now start managing and sharing cat pictures using the application.
 
 ## Authentication
 
-The Cat Picture Management App APIs are secured using Basic Authentication. Basic Authentication requires clients to include a username and password with their API requests. In our case, the username is "**ankit**" and the password is **12345**
+User authentication is required to access any API endpoints. Users must be registered and logged in to consume API resources. Authentication is implemented using the Devise gem, which provides user registration, login, and session management.
+
+To sign up go to: 
+```
+http://localhost:3000/users/sign_up
+```
+
+To sign in go to: 
+```
+http://localhost:3000/users/sign_in
+```
+
+To sign out go to: 
+```
+http://localhost:3000/users/sign_out
+```
+
+
+## Authorization
+
+Cat images can be deleted or updated by the user who originally uploaded them. For any other users, attempting to delete or update a cat image will result in a 403 Forbidden error.
+However any loggind in user can view cat images upload by any other users via list and get API's.
+
 
 
 ## Base URL
@@ -77,7 +105,7 @@ The Cat Picture Management App APIs are secured using Basic Authentication. Basi
 The base URL for all API endpoints is:
 
 ```
-http://localhost:3000/cat_images/
+http://localhost:3000
 ```
 
 
@@ -85,7 +113,7 @@ http://localhost:3000/cat_images/
 
 ### 1. Create a Cat Picture
 
-**Endpoint:** `POST /create`
+**Endpoint:** `POST /cat_images/create`
 
 **Description:** Upload a new cat picture to the database.
 
@@ -106,11 +134,11 @@ http://localhost:3000/cat_images/
 }
 ```
 
-**Possible Status Codes:** 201/401/400/500
+**Possible Status Codes:** 201, 401, 400, 500
 
 ### 2. List Cat Pictures
 
-**Endpoint:** `GET /list`
+**Endpoint:** `GET /cat_images/list`
 
 **Description:** Retrieve a list of all cat pictures in the database.
 
@@ -133,12 +161,14 @@ http://localhost:3000/cat_images/
       "age": 6,
       "breed": "Persian",
       "image_url": "https://your-api-domain.com/uploads/cat_picture_1.jpg",
-      "created_at": "2023-09-30T12:00:00Z"
+      "created_at": "2023-09-30T12:00:00Z",
+      "created_by_user": "ankit@gmail.com"
     },
     {
       "id": 2,
       "image_url": "https://your-api-domain.com/uploads/cat_picture_2.jpg",
-      "created_at": "2023-09-30T12:30:00Z"
+      "created_at": "2023-09-30T12:30:00Z",
+      "created_by_user": "ankit@gmail.com"
     }
   ],
   "current_page": 1,
@@ -148,11 +178,11 @@ http://localhost:3000/cat_images/
 }
 ```
 
-**Possible Status Codes:** 200/401/400/500
+**Possible Status Codes:** 200, 401, 400, 500
 
 ### 3. Get Cat Picture by ID
 
-**Endpoint:** `GET /get/:id`
+**Endpoint:** `GET /cat_images/get/:id`
 
 **Description:** Retrieve a specific cat picture by its unique ID.
 
@@ -172,15 +202,16 @@ http://localhost:3000/cat_images/
     "age": 10,
     "breed": "Persian",
     "image_url": "https://your-api-domain.com/uploads/cat_picture_2.jpg",
-    "created_at": "2023-09-26T21:58:08.387Z"
+    "created_at": "2023-09-26T21:58:08.387Z",
+    "created_by_user": "ankit@gmail.com"
   }
 }
 ```
-**Possible Status Codes:** 200/401/400/500/404
+**Possible Status Codes:** 200, 401, 400, 500, 404
 
 ### 4. Update Cat Picture
 
-**Endpoint:** `PUT /update/:id`
+**Endpoint:** `PUT /cat_images/update/:id`
 
 **Description:** Update the details or image of a cat picture.
 
@@ -201,11 +232,11 @@ http://localhost:3000/cat_images/
   "id": 1
 }
 ```
-**Possible Status Codes:** 200/401/400/500/404
+**Possible Status Codes:** 200, 401, 400, 500, 404, 403
 
 ### 5. Delete Cat Picture
 
-**Endpoint:** `DELETE /cat_pictures/:id`
+**Endpoint:** `DELETE /cat_images/delete/:id`
 
 **Description:** Delete a specific cat picture by its unique ID.
 
@@ -222,7 +253,7 @@ http://localhost:3000/cat_images/
   "id": 1
 }
 ```
-**Possible Status Codes:** 200/401/400/500/404
+**Possible Status Codes:** 200, 401, 400, 500, 404, 403
 
 
 
@@ -259,6 +290,11 @@ HTTP status codes are used to indicate the outcome of API requests. The followin
 
 - **Description**: An unexpected error occurred on the server.
 - **Usage**: This status code is returned when an unexpected error occurs during the processing of the request. It indicates a problem on the server-side.
+
+### 403 Forbidden
+
+- **Description**: Unauthorized request to access or update a resource.
+- **Usage**: This status code is returned when the client lacks proper authorization to access or update a resource.
 
 Please refer to the specific API endpoints and their respective documentation for more details on the status codes they may return.
 
@@ -323,5 +359,13 @@ This script will execute all the test suites in sequence, providing comprehensiv
 In conclusion, this documentation provides a comprehensive guide to the Cat Picture Management App's API, allowing you to seamlessly manage and share cat pictures. You've learned how to get started with the application, set up authentication, and interact with various endpoints for creating, listing, getting, updating, and deleting cat pictures.
 
 By following the provided instructions, you can quickly deploy the application and begin using these powerful APIs to enhance your cat picture management experience.
+
+
+## Postman Collection
+
+Postman Collection for all the API's can be found at:
+```
+https://github.com/ankitshrey112/cat-images/catimages_postman_collection.json
+```
 
 ---
