@@ -244,4 +244,67 @@ HTTP status codes are used to indicate the outcome of API requests. The followin
 - **Usage**: This status code is returned when an unexpected error occurs during the processing of the request. It indicates a problem on the server-side.
 
 Please refer to the specific API endpoints and their respective documentation for more details on the status codes they may return.
+
+---
+
+## Tests
+
+This API is thoroughly tested using RSpec, a popular testing framework for Ruby. Test suites have been organized separately for each API service. You can run all the tests together by executing the provided script, `./run-tests.sh`. Below are details on running tests for each API service separately:
+
+### Service 1 - /create
+
+- **RSpec Test Suite**: The test suite for /create is located in the `spec/services/create_cat_image.rb` file.
+- **Running Tests**:
+  ```bash
+  bundle exec rspec spec/services/create_cat_image.rb
+  ```
+
+### Service 2 - /update
+
+- **RSpec Test Suite**: The test suite for /update is located in the `spec/services/update_cat_image.rb` file.
+- **Running Tests**:
+  ```bash
+  bundle exec rspec spec/services/update_cat_image.rb
+  ```
+
+### Service 3 - /list
+
+- **RSpec Test Suite**: The test suite for /list is located in the `spec/services/list_cat_images.rb` file.
+- **Running Tests**:
+  ```bash
+  bundle exec rspec spec/services/list_cat_images.rb
+  ```
+
+### Service 4 - /get
+
+- **RSpec Test Suite**: The test suite for /get is located in the `spec/services/get_cat_image.rb` file.
+- **Running Tests**:
+  ```bash
+  bundle exec rspec spec/services/get_cat_image.rb
+  ```
+
+### Service 5 - /delete
+
+- **RSpec Test Suite**: The test suite for /delete is located in the `spec/services/delete_cat_image.rb` file.
+- **Running Tests**:
+  ```bash
+  bundle exec rspec spec/services/delete_cat_image.rb
+
+### Running All Tests
+
+You can run all the tests for all services together by executing the following script:
+```bash
+./run-tests.sh
+```
+
+This script will execute all the test suites in sequence, providing comprehensive coverage of you API endpoints.
+
+---
+
+## Conclusion
+
+In conclusion, this documentation provides a comprehensive guide to the Cat Picture Management App's API, allowing you to seamlessly manage and share cat pictures. You've learned how to get started with the application, set up authentication, and interact with various endpoints for creating, listing, getting, updating, and deleting cat pictures.
+
+By following the provided instructions, you can quickly deploy the application and begin using these powerful APIs to enhance your cat picture management experience.
+
 ---
