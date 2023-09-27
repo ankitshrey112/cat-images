@@ -5,17 +5,16 @@ class DeleteCatImage < ActiveInteraction::Base
     cat_image = get_cat_image
 
     unless cat_image.present?
-      self.errors.add(:base, 'Resource not found')
-      return
+      raise CustomError.new('Resource Not Found', :not_found)
     end
 
     unless cat_image.update(get_update_params)
-      self.errors.merge!(cat_image.errors)
-      return
+      raise CustomError.new(cat_image.errors.full_messages.join(','), :bad_request)
     end
 
     return {
-      id: cat_image.id
+      id: cat_image.id,
+      status: :ok
     }
   end
 
