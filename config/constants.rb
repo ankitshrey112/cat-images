@@ -19,4 +19,5 @@ module APIStatus
   BAD_REQUEST = :bad_request.freeze
   CREATED = :created.freeze
   OK = :ok.freeze
+  FORBIDDEN = :forbidden.freeze
 end

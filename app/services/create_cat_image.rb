@@ -3,6 +3,7 @@ class CreateCatImage < ActiveInteraction::Base
   integer :age, default: nil
   string :breed, default: nil
   object :image, class: CatImageFile::OBJECT_TYPE
+  integer :performed_by_user_id
 
   def execute
     cat_image = CatImage.new(get_create_params)
@@ -18,6 +19,9 @@ class CreateCatImage < ActiveInteraction::Base
   end
 
   def get_create_params
-    @_interaction_inputs.merge(status: CatImageStatus::ACTIVE)
+    @_interaction_inputs.except(:performed_by_user_id).merge({
+      status: CatImageStatus::ACTIVE,
+      created_by_user_id: self.performed_by_user_id
+    })
   end
 end

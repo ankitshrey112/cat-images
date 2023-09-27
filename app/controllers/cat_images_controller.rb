@@ -1,14 +1,10 @@
 class CatImagesController < ApplicationController
-  SUCCESS = 'OK'
-
   before_action :authenticate_user!
 
-  # http_basic_authenticate_with name: Rails.application.credentials[:http_secret][:username], password: Rails.application.credentials[:http_secret][:password]
-
-  protect_from_forgery with: :null_session
+  skip_before_action :verify_authenticity_token
 
   def health
-    render json: { status: SUCCESS }, status: APIStatus::OK
+    render json: { status: 'OK' }, status: APIStatus::OK
   end
 
   def create_cat_image
@@ -35,11 +31,15 @@ class CatImagesController < ApplicationController
 
   # Do not change below method, just add new controllers above and implement new interaction in services with same name.
   def get_service_respone(request)
+    puts ENV['RAILS_ENV']
+    print current_user
+    puts
     interaction = request.camelize.constantize
     @required_params = interaction.new.inputs.keys.map(&:to_sym)
 
     begin
-      api_request = interaction.run(self.permitted_params)
+      params = self.permitted_params.merge({ performed_by_user_id: current_user.id })
+      api_request = interaction.run(params)
 
       if api_request.valid?
         render json: api_request.result.except(:status), status: api_request.result[:status]

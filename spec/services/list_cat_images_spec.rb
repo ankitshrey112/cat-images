@@ -98,7 +98,7 @@ RSpec.describe ListCatImages do
 
         expect(data).to have_key(:list)
         expect(data).to have_key(:current_page) and expect(data[:current_page]).to eql(1)
-        expect(data).to have_key(:current_count) and expect(data[:current_count]).to eql(10)
+        expect(data).to have_key(:current_count) and expect(data[:current_count]).to eql(count >= 10 ? 10 : count)
         expect(data).to have_key(:total_pages) and expect(data[:total_pages]).to eql(count/10 + (count%10 == 0 ? 0 : 1))
         expect(data).to have_key(:total_count) and expect(data[:total_count]).to eql(count)
 
@@ -128,7 +128,7 @@ RSpec.describe ListCatImages do
 
         expect(data).to have_key(:list)
         expect(data).to have_key(:current_page) and expect(data[:current_page]).to eql(2)
-        expect(data).to have_key(:current_count) and expect(data[:current_count]).to eql(3)
+        expect(data).to have_key(:current_count) and expect(data[:current_count]).to eql(count >= 3 ? 3 : count)
         expect(data).to have_key(:total_pages) and expect(data[:total_pages]).to eql(count/3 + (count%3 == 0 ? 0 : 1))
         expect(data).to have_key(:total_count) and expect(data[:total_count]).to eql(count)
 

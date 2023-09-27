@@ -1,5 +1,6 @@
 class GetCatImage < ActiveInteraction::Base
   integer :id
+  integer :performed_by_user_id
 
   def execute
     cat_image = get_cat_image
@@ -27,7 +28,8 @@ class GetCatImage < ActiveInteraction::Base
       age: cat_image.age,
       breed: cat_image.breed,
       image_url: cat_image.get_image_url,
-      created_at: cat_image.created_at
+      created_at: cat_image.created_at,
+      created_by_user: User.where(id: cat_image.created_by_user_id).first.email
     }
   end
 end

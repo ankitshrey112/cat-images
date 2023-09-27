@@ -5,6 +5,7 @@ class CreateTableCatImages < ActiveRecord::Migration[7.0]
       t.integer :age
       t.string :breed
       t.string :status
+      t.bigint :created_by_user_id
 
       t.timestamps
 
@@ -12,6 +13,7 @@ class CreateTableCatImages < ActiveRecord::Migration[7.0]
       t.index [:age], name: 'index_cats_on_age'
       t.index [:breed], name: 'index_cats_on_breed'
       t.index [:status], name: 'index_cats_on_status'
+      t.index [:created_by_user_id], name: 'index_cats_on_created_by_user_id'
     end
 
     execute "ALTER TABLE cat_images ADD CONSTRAINT status_check CHECK (status IN ('#{CatImageStatus::ACTIVE}', '#{CatImageStatus::INACTIVE}'))"

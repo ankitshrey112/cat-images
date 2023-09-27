@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
+
   root 'cat_images#health'
 
   post 'cat_images/create', to: 'cat_images#create_cat_image'
