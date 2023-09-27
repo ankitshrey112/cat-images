@@ -37,12 +37,16 @@ class CatImagesController < ApplicationController
     interaction = request.camelize.constantize
     @required_params = interaction.new.inputs.keys.map(&:to_sym)
 
-    api_request = interaction.run(self.permitted_params)
+    begin
+      api_request = interaction.run(self.permitted_params)
 
-    if api_request.errors.present?
-      render json: { status: BAD_REQUEST, messages: api_request.errors.full_messages }, status: :bad_request
-    else
-      render json: api_request.result, status: :ok
+      if api_request.valid?
+        render json: api_request.result.except(:status), status: api_request.result[:status]
+      else
+        render json: api_request.errors.full_messages, status: :bad_request
+      end
+    rescue CustomError => e
+      render json: { error: e.message }, status: e.status
     end
   end
 
