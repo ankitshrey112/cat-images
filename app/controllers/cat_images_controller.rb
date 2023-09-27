@@ -1,6 +1,5 @@
 class CatImagesController < ApplicationController
   SUCCESS = 'OK'
-  BAD_REQUEST = '400 Bad Request'
 
   http_basic_authenticate_with name: Rails.application.credentials[:http_secret][:username], password: Rails.application.credentials[:http_secret][:password]
 
