@@ -302,7 +302,17 @@ Please refer to the specific API endpoints and their respective documentation fo
 
 ## Tests
 
-This API is thoroughly tested using RSpec, a popular testing framework for Ruby. Test suites have been organized separately for each API service. You can run all the tests together by executing the provided script, `./run-tests.sh`. Below are details on running tests for each API service separately:
+This API is thoroughly tested using RSpec, a popular testing framework for Ruby. Test suites have been organized separately for each API service and run on a **test database** different from the application database. You can run all the tests together by executing the provided script, `./run-tests.sh`.
+
+### Running All Tests
+
+You can run all the tests for all services together by executing the following script:
+```bash
+./run-tests.sh
+```
+
+This script will run the database migration on the test db and execute all the test suites in sequence, providing comprehensive coverage of you API endpoints.
+After running this independent test suites can also be rub seperately as described:
 
 ### Service 1 - /create
 
@@ -342,16 +352,6 @@ This API is thoroughly tested using RSpec, a popular testing framework for Ruby.
 - **Running Tests**:
   ```bash
   bundle exec rspec spec/services/delete_cat_image.rb
-
-### Running All Tests
-
-You can run all the tests for all services together by executing the following script:
-```bash
-./run-tests.sh
-```
-
-This script will execute all the test suites in sequence, providing comprehensive coverage of you API endpoints.
-
 
 
 ## Conclusion
